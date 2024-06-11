@@ -1,5 +1,5 @@
 line_items:
-  - final_price: 0
+  - total_price: 0
     quantity: 1
     product:
       code: SR1
@@ -7,14 +7,14 @@ line_items:
       price: 5.00
 
 
-  - final_price: 0
+  - total_price: 0
     quantity: 1
     product:
       code: GR1
       name: Green Tea
       price: 3.11
 
-  - final_price: 0
+  - total_price: 0
     quantity: 3
     product:
       code: CF1

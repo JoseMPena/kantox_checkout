@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rspec'
+require 'spec_helper'
 require 'product'
 
 describe Product do
@@ -8,8 +8,8 @@ describe Product do
   subject { described_class.new(**product_attrs) }
 
   context 'accessors' do
-    it { is_expected.to respond_to(:code) }
-    it { is_expected.to respond_to(:name) }
-    it { is_expected.to respond_to(:price) }
+    it { expect(subject.name).to eq('Green Tea') }
+    it { expect(subject.code).to eq('GR1') }
+    it { expect(subject.price).to eq(3.11) }
   end
 end

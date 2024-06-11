@@ -1,29 +1,23 @@
 # frozen_string_literal: true
 
 require 'bigdecimal'
-require 'promotion'
-require_relative '../mixins/price_discountable'
-require_relative '../mixins/bulk_promotable'
 
 module Promotions
-  # Applies 0,50 discount when buying 3 or more of a product
-  class BulkDiscount < Promotion
-    include PriceDiscountable
-    include BulkPromotable
-    attr_reader :discounted_amount
-
-    DISCOUNTED_AMOUNT = 0.50
-
-    def initialize(promotable, discount = DISCOUNTED_AMOUNT)
-      super(promotable)
-      @discounted_amount = discount
+  # Applies a discount when buying a minimum quantity of a product
+  class BulkDiscount
+    def initialize(product_codes, minimum_quantity, discount_price)
+      @product_codes = product_codes
+      @minimum_quantity = minimum_quantity
+      @discount_price = discount_price
     end
 
-    private
+    def apply(checkout)
+      checkout.line_items.each do |item|
+        next unless @product_codes.include?(item.product.code) &&
+                    item.quantity >= @minimum_quantity
 
-    def discounted_price_quantity(price, quantity)
-      discounted_unit_price = BigDecimal((price - discounted_amount).to_s)
-      (discounted_unit_price * quantity).round(2).to_f
+        item.total_price = @discount_price * item.quantity
+      end
     end
   end
 end

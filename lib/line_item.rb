@@ -3,12 +3,22 @@
 # Represents a product belonging to a checkout
 class LineItem
   attr_reader :product, :original_price
-  attr_accessor :quantity, :final_price
+  attr_accessor :quantity, :total_price
 
-  def initialize(attrs)
-    @product = attrs['product']
-    @original_price = attrs['product']['price']
-    @quantity = attrs['quantity']
-    @final_price = @original_price * attrs['quantity']
+  def initialize(product, quantity = 1)
+    @product = product
+    @quantity = quantity
+    calculate_total_price
+  end
+
+  def update_quantity(new_quantity)
+    @quantity = new_quantity
+    calculate_total_price
+  end
+
+  private
+
+  def calculate_total_price
+    @total_price = @product.price * @quantity
   end
 end

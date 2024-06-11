@@ -1,35 +1,26 @@
 # frozen_string_literal: true
 
-require 'rspec'
+require 'spec_helper'
 require 'line_item'
 require 'promotions/buy_one_get_one'
 
 describe Promotions::BuyOneGetOne do
-  let(:items) { load_fixture('line_items') }
-  let(:item1) { LineItem.new(**items.first) }
-  let(:item2) { LineItem.new(**items.last) }
-  let(:checkout) { double('Checkout', line_items: [item1, item2]) }
-  let(:promo) { described_class.new([item1.product['code']]) }
+  let(:product) { Product.new(**load_fixture('products')[0]) }
+  let(:line_item) { LineItem.new(product, 3) }
+  let(:checkout) { instance_double('Checkout', line_items: [line_item]) }
+  subject { described_class.new(['GR1']) }
 
-  describe '#apply' do
-    context 'when line_items have insufficient quantity' do
-      it 'does not modify the price' do
-        expect { promo.apply(checkout) }.to_not(change { item1.final_price })
-      end
-    end
+  it 'applies the promotion to eligible products' do
+    subject.apply(checkout)
+    expect(line_item.total_price).to eq(6.22)
+  end
 
-    context 'when line_items have a promotable quantity' do
-      let(:item1) { LineItem.new(items.first.merge('quantity' => 3)) }
-      let(:item2) { LineItem.new(items.last.merge('quantity' => 3)) }
+  it 'does not apply the promotion to ineligible products' do
+    other_product = Product.new(**load_fixture('products')[1])
+    other_line_item = LineItem.new(other_product, 2)
+    checkout = instance_double('Checkout', line_items: [other_line_item])
 
-      it 'adjusts the item prices to meet buy-one-get-one rule' do
-        expect { promo.apply(checkout) }
-          .to change { item1.final_price }.to(item1.original_price * 2)
-      end
-
-      it 'does not adjust non-applicable products' do
-        expect { promo.apply(checkout) }.to_not(change { item2.final_price })
-      end
-    end
+    subject.apply(checkout)
+    expect(other_line_item.total_price).to eq(10.00)
   end
 end

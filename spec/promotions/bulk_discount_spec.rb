@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require 'rspec'
+require 'spec_helper'
 require 'line_item'
 require 'promotions/bulk_discount'
 
 describe Promotions::BulkDiscount do
-  let(:item_attributes) { load_fixture('line_items').first }
-  let(:item) { LineItem.new(item_attributes.merge('quantity' => 3)) }
-  let(:promo) { described_class.new([item.product['code']]) }
+  let(:product) { Product.new(**load_fixture('products')[1]) }
+  let(:line_item) { LineItem.new(product, 4) }
+  let(:checkout) { instance_double('Checkout', line_items: [line_item]) }
+  subject { described_class.new(['SR1'], 3, 4.50) }
 
-  it_behaves_like 'a bulk promotion'
+  it 'applies the discount to eligible products' do
+    subject.apply(checkout)
+    expect(line_item.total_price).to eq(18.00)
+  end
 
-  describe '#apply' do
-    let(:checkout) { instance_double('Checkout', line_items: [item]) }
-
-    context 'when it is applicable' do
-      it 'adjusts the price with a discount of 0,50' do
-        expect { promo.apply(checkout) }.to change(item, :final_price).to(13.50)
-      end
-    end
+  it 'does not apply the discount to ineligible quantities' do
+    line_item.update_quantity(2)
+    subject.apply(checkout)
+    expect(line_item.total_price).to eq(10.00)
   end
 end
