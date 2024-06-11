@@ -8,7 +8,7 @@ describe Promotions::BuyOneGetOne do
   let(:product) { Product.new(**load_fixture('products')[0]) }
   let(:line_item) { LineItem.new(product, 3) }
   let(:checkout) { instance_double('Checkout', line_items: [line_item]) }
-  subject { described_class.new(['GR1']) }
+  subject { described_class.new(product_codes: ['GR1']) }
 
   it 'applies the promotion to eligible products' do
     subject.apply(checkout)

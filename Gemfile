@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby '3.3.1'
 
-gem 'bigdecimal'
+gem 'thor'
 gem 'yaml'
 
 group :development, :test do

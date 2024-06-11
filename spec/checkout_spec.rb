@@ -12,12 +12,16 @@ RSpec.describe Checkout do
   let(:strawberries) { Product.new(product_attributes[1]) }
   let(:coffee) { Product.new(product_attributes[2]) }
 
-  let(:bogo_tea) { Promotions::BuyOneGetOne.new(['GR1']) }
-  let(:bulk_strawberries) { Promotions::BulkDiscount.new(['SR1'], 3, 4.50) }
-  let(:bulk_coffee) { Promotions::BulkDiscount.new(['CF1'], 3, coffee.price * (2 / 3.0)) }
-  let(:pricing_rules) { [bogo_tea, bulk_strawberries, bulk_coffee] }
+  let(:bogo_tea) { Promotions::BuyOneGetOne.new(product_codes: ['GR1']) }
+  let(:bulk_strawberries) do
+    Promotions::BulkDiscount.new(product_codes: ['SR1'], min_quantity: 3, discount_price: 4.50)
+  end
+  let(:bulk_coffee) do
+    Promotions::BulkDiscount.new(product_codes: ['CF1'], min_quantity: 3, discount_price: coffee.price * (2 / 3.0))
+  end
+  let(:promotions) { [bogo_tea, bulk_strawberries, bulk_coffee] }
 
-  subject { described_class.new(pricing_rules) }
+  subject { described_class.new(promotions) }
 
   describe '#scan' do
     it 'adds a product as a line item' do

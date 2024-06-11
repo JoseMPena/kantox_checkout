@@ -6,8 +6,8 @@ require_relative 'line_item'
 class Checkout
   attr_accessor :promotions, :line_items
 
-  def initialize(pricing_rules)
-    @promotions = pricing_rules
+  def initialize(promotions)
+    @promotions = promotions
     @line_items = []
   end
 

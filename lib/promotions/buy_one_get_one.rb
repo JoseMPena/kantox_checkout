@@ -3,7 +3,7 @@
 module Promotions
   # Applies promotion rules to add a free item for each applicable product in the checkout
   class BuyOneGetOne
-    def initialize(product_codes)
+    def initialize(product_codes: [])
       @product_codes = product_codes
     end
 

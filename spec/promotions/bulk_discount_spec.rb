@@ -8,7 +8,7 @@ describe Promotions::BulkDiscount do
   let(:product) { Product.new(**load_fixture('products')[1]) }
   let(:line_item) { LineItem.new(product, 4) }
   let(:checkout) { instance_double('Checkout', line_items: [line_item]) }
-  subject { described_class.new(['SR1'], 3, 4.50) }
+  subject { described_class.new(product_codes: ['SR1'], min_quantity: 3, discount_price: 4.50) }
 
   it 'applies the discount to eligible products' do
     subject.apply(checkout)
