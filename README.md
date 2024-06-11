@@ -12,37 +12,37 @@ To run this project, you will need the following:
 
 ## Setup
 1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/checkout_system.git
-   cd checkout_system
-   ```
+```bash
+git clone https://github.com/yourusername/checkout_system.git
+cd checkout_system
+```
+
+### With Docker
 
 2. **Build the image**:
-   ```bash
-   make build
-   ```
+```bash
+make build
+```
 
 This will create a Docker image named kantox_checkout based on the provided Dockerfile.
 
 3. **Run the project**:
-   ```bash
-   make run
-   ```
-
-### With Docker
+```bash
+make run
+```
 
 ### Without Docker
 
 2. **Install dependencies**:
-   ```bash
-   bundle install
-   ```
+```bash
+bundle install
+```
    
 3. **Flag the init script as executable and run it**
-    ```bash
-    chmod +x bin/checkout
-   ./bin/checkout start
-    ```
+ ```bash
+ chmod +x bin/checkout
+./bin/checkout start
+ ```
 
 ## Running Tests
 
