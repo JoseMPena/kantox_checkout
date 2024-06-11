@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PriceDiscountable
   def apply(checkout)
     checkout.line_items.each do |item|

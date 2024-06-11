@@ -13,6 +13,6 @@ class Promotion
   end
 
   def applicable?(product)
-    promotable_products.include?(product["code"])
+    promotable_products.include?(product['code'])
   end
 end

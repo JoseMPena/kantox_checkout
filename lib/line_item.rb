@@ -6,9 +6,9 @@ class LineItem
   attr_accessor :quantity, :final_price
 
   def initialize(attrs)
-    @product = attrs["product"]
-    @original_price = attrs["product"]["price"]
-    @quantity = attrs["quantity"]
-    @final_price = @original_price * attrs["quantity"]
+    @product = attrs['product']
+    @original_price = attrs['product']['price']
+    @quantity = attrs['quantity']
+    @final_price = @original_price * attrs['quantity']
   end
 end

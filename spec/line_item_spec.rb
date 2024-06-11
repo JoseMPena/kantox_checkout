@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'rspec'
 require_relative '../lib/line_item'
 
 RSpec.describe LineItem do
   let(:product) { load_fixture('products')[0] }
   let(:quantity) { 3 }
-  let(:attrs) { { "product" => product, "quantity" => quantity } }
+  let(:attrs) { { 'product' => product, 'quantity' => quantity } }
 
   describe '#initialize' do
     it 'sets the product correctly' do

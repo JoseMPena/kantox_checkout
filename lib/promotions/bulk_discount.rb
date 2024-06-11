@@ -3,24 +3,20 @@
 require 'bigdecimal'
 require 'promotion'
 require_relative '../mixins/price_discountable'
+require_relative '../mixins/bulk_promotable'
 
 module Promotions
   # Applies 0,50 discount when buying 3 or more of a product
   class BulkDiscount < Promotion
     include PriceDiscountable
+    include BulkPromotable
+    attr_reader :discounted_amount
 
     DISCOUNTED_AMOUNT = 0.50
-    BULK_QUANTITY = 3
-
-    attr_reader :discounted_amount
 
     def initialize(promotable, discount = DISCOUNTED_AMOUNT)
       super(promotable)
       @discounted_amount = discount
-    end
-
-    def applicable?(item)
-      super(item.product) && item.quantity >= BULK_QUANTITY
     end
 
     private
