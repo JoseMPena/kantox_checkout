@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 ruby '3.3.1'
 
 gem 'yaml'
+gem 'bigdecimal'
 
 group :development, :test do
   gem 'pry-byebug'

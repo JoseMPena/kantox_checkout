@@ -1,18 +1,12 @@
 # frozen_string_literal: true
 
 require 'promotion'
-require 'pry-byebug'
+require_relative '../mixins/price_discountable'
 
 module Promotions
   # Applies promotion rules to add a free item for each applicable product in the checkout
   class BuyOneGetOne < ::Promotion
-    def apply(checkout)
-      checkout.line_items.each do |item|
-        next unless applicable?(item)
-
-        item.final_price = discounted_price_quantity(item.original_price, item.quantity)
-      end
-    end
+    include PriceDiscountable
 
     def applicable?(item)
       item.quantity >= 2 && super(item.product)
