@@ -1,0 +1,17 @@
+line_items:
+  - final_price: 5.00
+    original_price: 5.00
+    quantity: 1
+    product:
+      code: SR1
+      name: Strawberries
+      price: 5.00
+
+
+  - final_price: 3.11
+    original_price: 3.11
+    quantity: 1
+    product:
+      code: GR1
+      name: Green Tea
+      price: 3.11
